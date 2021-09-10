@@ -1,4 +1,4 @@
-package SharedThread;
+package Syncronized;
 
 class Account{
     String accountNo,ownerName;

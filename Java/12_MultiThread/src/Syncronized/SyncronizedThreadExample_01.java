@@ -1,4 +1,4 @@
-package SharedThread;
+package Syncronized;
 
 class CalcThread extends Thread{
     SharedArea1 sharedArea;
