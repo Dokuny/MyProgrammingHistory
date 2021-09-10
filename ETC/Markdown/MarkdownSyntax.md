@@ -1,6 +1,6 @@
 
 #마크다운 문법 (Markdown Syntax)
-***
+
 ###줄바꿈
 문장 끝에 공백(space bar로)을 두번주고 enter를 누른다.  
 ```markdown
