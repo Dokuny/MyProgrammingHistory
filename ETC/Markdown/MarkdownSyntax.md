@@ -1,6 +1,8 @@
 
 # 마크다운 문법 (Markdown Syntax)
 
+자세한 내용은 [HEROPY Tech](https://heropy.blog/2017/09/30/markdown/) 참조하자.
+
 ### 줄바꿈
 문장 끝에 공백(space bar로)을 두번주고 enter를 누른다.  
 ```markdown
