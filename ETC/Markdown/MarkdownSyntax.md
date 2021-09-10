@@ -1,3 +1,4 @@
+
 #마크다운 문법 (Markdown Syntax)
 ***
 ###줄바꿈
@@ -70,9 +71,13 @@ ordered
 
 ---
 ###코드넣기
-코드블록
-
-<img height="90" src="C:\Users\uooy\Desktop\화면 캡처 2021-09-10 172429.png" width="500"/>
+코드블록  
+_```_
+java      
+public void printHello() {      
+System.out.println("hello world!");    
+}  
+`\`` 
 
 ``` java  
 public void printHello() {  
