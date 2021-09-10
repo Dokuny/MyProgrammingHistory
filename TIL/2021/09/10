@@ -1,1 +1,15 @@
 #2021.09.10(Fri)
+### 오늘 한 일
+* IntelliJ 깃허브 clone시 발생하는 Permission denied (publickey) 해결 [blog](https://blog.naver.com/nestour/222501766296)
+* IntelliJ 파일 색상별 의미 알게 됨 [blog](https://blog.naver.com/nestour/222501747152)
+* Markdown language 공부 [GitHub](https://github.com/Dokuny/MyProgrammingHistory/tree/main/ETC/Markdown)
+* Java Exception 정리 
+* Java Thread의 syncronized 공부
+
+
+### 알게 된 것 
+* 생성자는 상속할 때 상속대상에서 제외된다.(필요 시 super();로 사용)
+
+### 내일 할 것
+* DAO / VO / DTO 가 무엇인지
+* 인텔리제이 자주 쓰는 단축키
