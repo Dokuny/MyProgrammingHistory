@@ -5,7 +5,7 @@
 <a href="https://github.com/namjunemy"> namjunemy</a>님과 
 <a href="https://wayhome25.github.io/" rel="nofollow">Lee HyunJoo</a>님을 참고했다.
 
-##작성규칙
+## 작성규칙
 
 * 되도록이면 폴더와 파일은 영어로 작성한다.
 
@@ -15,7 +15,7 @@
 
 * **매일 11시**에 TIL을 업로드한다.
 
-##작성양식
+## 작성양식
 ### 1. TIL 
 * 제목은 작성하는 날짜로
 * 오늘 한 일
