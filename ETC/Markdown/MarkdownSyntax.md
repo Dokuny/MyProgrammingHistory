@@ -1,7 +1,7 @@
 
-#마크다운 문법 (Markdown Syntax)
+# 마크다운 문법 (Markdown Syntax)
 
-###줄바꿈
+### 줄바꿈
 문장 끝에 공백(space bar로)을 두번주고 enter를 누른다.  
 ```markdown
 문장1(공백없음)
@@ -13,7 +13,7 @@
 문장2  
 문장a  
 문장b
-###문단 구분
+### 문단 구분
 엔터 두번눌러서 문단 간에 공백 한줄을 준다.
 
 ```markdown
@@ -51,7 +51,7 @@
 ## h2 
 
 ---
-###목록
+### 목록
 ```markdown
 Unordered
 * 목록1       
@@ -70,7 +70,7 @@ ordered
     1. 목록2
 
 ---
-###코드넣기
+### 코드넣기
 코드블록  
 _```_
 java      
@@ -101,7 +101,7 @@ public void printHello() {
 ```
 [GitHub](http://github.com "깃허브")
 ***
-###인용구 상자
+### 인용구 상자
 ```markdown
 김홍철: 
 
@@ -111,7 +111,7 @@ public void printHello() {
 
 > 살어리살어리랏다.
 ***
-###강조
+### 강조
 ```markdown
 *This text will be italic*   // *또는 _하나만 사용시 이탤릭체로 강조
 _This will also be italic_ 
@@ -129,7 +129,7 @@ __This will also be bold__
 
 *You **can** combine them*
 ***
-###표만들기(Tables)
+### 표만들기(Tables)
 ```markdown
 First Header | Second Header  
 ------------ | -------------  
