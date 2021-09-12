@@ -153,3 +153,21 @@ ___
 *** 
 ___
 ***
+
+### 접기/펼치기 만들기
+```markdown
+<details markdown="1">
+<summary>접기/펼치기</summary>
+
+이상해씨
+<!--summary 아래 빈칸 공백 두고 내용을 적는공간-->
+
+</details>
+```
+<details markdown="1">
+<summary>접기/펼치기</summary>
+
+이상해씨
+<!--summary 아래 빈칸 공백 두고 내용을 적는공간-->
+
+</details>
