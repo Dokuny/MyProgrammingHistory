@@ -35,8 +35,28 @@ public class CoffeeManager {
 	
 	public void updateCoffee(int orderNo,Coffee coffee) {
 		coffee.setOrderNo(orderNo);
-		orderList.set(orderNo,coffee);
+		orderList.set(orderNo-1,coffee);
 	}
 	
-	
+	public void deleteCoffee(int idx) {
+		orderList.remove(idx);
+		// 주문번호 변경
+		if(idx != orderList.size()) {
+			for(int i=idx;i<orderList.size();i++) {
+				orderList.get(i).setOrderNo(i+1);
+			}
+		}
+	}
+
+	public ArrayList<Coffee> getOrderList(){
+		return orderList;
+	}
+
+	public void setOrderList(ArrayList<Coffee> orderList) {
+		this. orderList = orderList;
+	}
+
+	public void close(){
+		coDao.saveList(orderList);
+	}
 }
