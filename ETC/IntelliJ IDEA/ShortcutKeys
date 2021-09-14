@@ -1,4 +1,5 @@
 ## 단축키 모음집
 * 터미널 열기 :  alt + F12
-* 설정 열기 : Shift + Alt + s
-
+* 설정 열기 : Shift + Alt + S
+* 자동 정렬 : ctrl +shift + F 
+* 주석 처리 : ctrl + /
