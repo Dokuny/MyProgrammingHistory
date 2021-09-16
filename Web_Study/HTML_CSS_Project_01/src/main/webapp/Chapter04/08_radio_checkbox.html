@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style type="text/css">
+		body {
+			background-color: #fff;
+		}
+		
+		form fieldset{
+			margin-bottom: 25px;
+		}
+		form legend {
+			font-size: 15px;
+			font-weight: 600;
+		}
+	</style>
+</head>
+<body>
+<form action="">
+	<fieldset>
+		<legend>신청과목</legend>
+		<p>이 달에 신청할 과목을 선택하세요(1과목만 가능)</p>
+		<label><input type="radio" name="subject" value="speaking">회화</label>
+		<label><input type="radio" name="subject" value="grammar">문법</label>
+		<label><input type="radio" name="subject" value="writing">작문</label>
+	</fieldset>
+	<fieldset>
+	<legend>메일링</legend>
+	<p>메일로 받고싶은 뉴스 주제를 선택해 주세여(복수선택가능)</p>
+	<label><input type="checkbox" name="subject1" value="news">뉴스</label>
+	<label><input type="checkbox" name="subject2" value="dialog">5분회화</label>
+	<label><input type="checkbox" name="subject3" value="pops">팝스</label>
+	</fieldset>
+</form>
+</body>
+</html>
