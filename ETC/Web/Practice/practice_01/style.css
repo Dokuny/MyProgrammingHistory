@@ -1,0 +1,11 @@
+#wrapper {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(12,minmax(30px,1fr));
+    grid-template-rows: repeat();
+    column-gap: 10px;
+}
+
+.box1 {
+
+}

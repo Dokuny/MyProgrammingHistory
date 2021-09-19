@@ -181,4 +181,52 @@
   * absolute : relative 값을 사용한 상위 요소를 기준으로 위치를 지정해 배치
   * fixed : 브라우저 창을 기준으로 위치를 지정해 배치
 * left,right,top,bottom : 기준 위치와 요소 사이에 정한 방향으로 얼마나 떨어져 있는지 지정
-* 
+
+***
+## 이미지와 그라데이션 효과
+### 배경색과 배경범위 지정
+1. background-color : 배경색을 지정하는 속성(상속불가)
+2. background-clip : 배경색의 적용범위 설정
+   * border-box : 기본값
+   * padding-box
+   * content-box
+
+### 배경 이미지 지정
+1. background-image : 배경을 이미지로,배경을 넣을때 요소보다 이미지가 작으면 이미지가 가로와 세로로 반복되며 배경을 가득 채움
+   ```css
+    background-image:url('이미지파일 경로');
+   ```
+2. background-repeat : 배경 이미지 반복방법 지정
+   * repeat : 기본값,가로세로로 가득찰 때 까지 반복
+   * repeat-x : 가로로 반복
+   * repeat-y : 세로로 반복
+   * no-repeat : 한번만 표시
+3. background-position : 배경 이미지 위치 조절
+  ```css
+   background-position : 수평위치 수직위치;
+  ```
+  * 값을 하나만 지정하면 지정한 값을 수평위치로 지정,수직위치는 50%나 center로 간주
+  * 키워드 : left,center,right / top,center,bottom
+  * 백분율 : 왼쪽모서리 기준 퍼센트 이동 후 이미지들어감
+  * 길이 값 : 적은 px혹은 단위 만큼 이동후 이미지 왼쪽 상단 모서리를 맞춤
+4. background-origin : 배경이미지 적용범위 조절
+   * content-box
+   * padding-box
+   * border-box
+5. background-attachment : 배경이미지 고정
+   * scroll : 기본값, 스크롤 시 배경이미지도 같이 스크롤
+   * fixed : 배경이미지는 고정되고 내용만 스크롤된다.
+6. background : 위에 있는 모든 속성 하나로 묶어서 사용
+7. background-size : 배경이미지 크기 조절
+   * auto : 기본값,원래배경이미지 크기만큼 표시
+   * contain : 요소 안에 배경이미지가 다 들어오도록 이미지 확대,축소
+   * cover : 배경이미지로 요소를 모두 덮도록 확대,축소
+   * 크기 : 크기 직접 지정
+   * 백분율 
+### 그라데이션 효과
+1. 선형 그라데이션
+  ```css
+  linear-gradient(to 방향 또는 각도,색상중지점);
+  ```
+  * 방향 : to 예약어와 함께 사용,최대 2개까지 사용(left,right/top,bottom)
+  * 
