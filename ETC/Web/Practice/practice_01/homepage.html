@@ -1,12 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Ti</title>
-</head>
-<body>
-	<div id = wrapper>
-	<div class="box1"></div>
-	</div>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width" , initial-scale="1.0">
+		<title>자바스크립트를 실습해보자</title>
+		<script
+			src="https://kit.fontawesome.com/c96c5e0f4b.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<!--Header-->
+		<header>
+			<div class="logo">
+				<i class="fab fa-youtube"></i>
+				<span class="title">Youtube</span>
+			</div>
+			<div class="icons">
+				<i class="fas fa-search"></i>
+				<i class="fas fa-ellipsis-v"></i>
+			</div>
+		</header>
+		
+		<!--Video Player-->
+		<section class="player">
+			<video src="video/lemon.mp4" controls></video>
+		</section>
+		
+		
+		<div class="infoAndUpNext">
+			<!-- Video Info-->
+			<section class="info">
+				<div class="metadata">
+					<ul class="hashtags">
+						<li>#CloneCoding</li>
+						<li>#Practice</li>
+						<li>#Dokun</li>
+					</ul>
+					<div class="titleAndButton">
+						<span class="title">
+							Clone Coding : Youtube Mobile Website 유튜브 모바일 웹사이트 따라만들기 | HTML,CSS,Javascript 연습편123333333333333333333333333333333333312313222222222222
+						</span>
+						<button class="moreBtn"><i class="fas fa-caret-down"></i></button>
+					</div>
+					<span class="views">1M views 1 month ago</span>
+				
+				</div>
+				<ul class="actions">
+					<li>
+						<button><i class="active fas fa-thumbs-up"></i><span>1K</span></button>
+					</li>
+					<li>
+						<button><i class="fas fa-thumbs-down"></i><span>0</span></button>
+					</li>
+					<li>
+						<button><i class="fas fa-share"></i><span>Share</span></button>
+					</li>
+					<li>
+						<button><i class="fas fa-plus"></i><span>Save</span></button>
+					</li>
+					<li>
+						<button><i class="fab fa-font-awesome-flag"></i><span>Report</span></button>
+					</li>
+				</ul>
+				
+				<div class="channel">
+					<div class="metadata">
+						<img src="image/dokun.png" alt="">
+						<div class="info">
+							<span class="name">Dokun</span>
+							<span class="subscribers">1M subscribers</span>
+						</div>
+					</div>
+					<button class="subscribe">subscribe</button>
+				</div>
+			</section>
+			
+			<!--up next-->
+			<section class="upNext">
+				<span class="title">Up next</span>
+				<ul>
+					<li class="item">
+						<div class="img"><img src="image/dog.jpg" alt=""></div>
+						<div class="info">
+							<span class="title">강아지가 귀여워.치와와 대작전!!!</span>
+							<span class="name">Dokun</span>
+							<span class="views">82k views</span>
+						</div>
+						<button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+					</li>
+					<li class="item">
+						<div class="img"><img src="image/bubble.jpg" alt=""></div>
+						<div class="info">
+							<span class="title">원 투 쓰리 포 버블버블 우리 같이 사랑해요 버블 버블</span>
+							<span class="name">Dokun</span>
+							<span class="views">21k views</span>
+						</div>
+						<button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+					</li>
+					<li class="item">
+						<div class="img"><img src="image/dokun.png" alt=""></div>
+						<div class="info">
+							<span class="title">몽타뉴 강아지는 방패를 들 수 있을까요 없을까요?</span>
+							<span class="name">Dokun</span>
+							<span class="views">99k views</span>
+						</div>
+						<button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+					</li>
+				</ul>
+			</section>
+		</div>
+	</body>
 </html>
