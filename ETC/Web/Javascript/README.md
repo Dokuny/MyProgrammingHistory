@@ -1,5 +1,55 @@
 # 자바 스크립트(Java Script)
 ***
+### HTML 내에서 ``<script>`` 위치별 차이
+1. ``<head>`` 태그 안에서 작성 
+    ```
+     parsing HTML ->            blocked             ->parsing HTML(page is ready)  
+                         fetching js->excuting js
+   
+      html을 쭉 읽다가 head 안의 js발견하고 멈춘 다음 js를 다운받아서 실행시키고 다시 HTML을 읽는다.
+    ```
+   * js의 사이즈가 클 경우 웹사이트를 보기까지 많은 시간이 소요된다.  
+
+
+2. ``<body>`` 태그 마지막부분에 작성
+   ```
+    parsing HTML(page is ready) -> fetching js -> executing js
+   ```
+   * 사용자가 기본적인 HTML 컨텐츠를 빨리 볼 수 있음 , 그러나 js를 fecthing하는 시간을 기다려야 제대로 된 사이트를 볼 수 있다
+3. ``<head>`` + ``async`` 속성
+   ```
+    형태 : <script async src=""><script>
+   
+    parsing HTML  ->   blocked    -> parsing HTML (page is ready)
+     fetching js  -> executing js 
+   
+    병렬 형식으로 fetching을 같이 해주다가 executing 할 때만 block, js 실행 후 다시 parsing
+    여러개의 스크립트를 async로 가져올 땐, 먼저 fetching 된 js부터 실행 
+   ```
+   * 장점 : 병렬로 fetching 하기 때문에 다운로드 받는 시간을 절약
+   * 단점 
+     1. HTML이 완전히 parsing되기도 전에 executing을 하다보니 js에 연결된 HTML이 정의가 안되어 있을 수도 있다.
+     2. block하기 때문에 여전히 사용자가 페이지를 보는데 시간이 더 걸릴 수 있다.
+4. ``<head>`` + ``defer`` 속성
+   ```
+    parsing HTML(page is ready) - >  executing js
+      fetching js 
+   
+      병렬 + html이 완전히 준비되어야 executing
+      여러개의 스크립트를 defer로 가져올 때, 모든 스크립트가 다 fetching 되고 html이 준비되어야 스크립트 선언 순서대로 js 실행 
+   ```
+   * 위의 것들을 전부 보완한 형태
+***
+### 자바스크립트에 'use strict' 선언
+```javascript
+ 'use strict';
+```
+* js를 만들고 맨 위에 작성
+* type script를 쓸 때에는 필요 없음
+* 브라우저에서는 문제없지만 자바스크립트 상에서 문제가 생기는 부분들을 미리 체크해준다.(strict 모드)
+* 실행할 때도 성능개선이 있다.
+
+***
 ## 자바스크립트와 첫만남
 ### 자바스크립트로 무엇을 할까
 * 웹의 요소 제어
