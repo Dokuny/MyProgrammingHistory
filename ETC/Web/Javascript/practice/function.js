@@ -60,9 +60,9 @@ const print = function (){ // anonymous function,익명함수.
     console.log('print');
 };  // 마지막에 ;붙여줘야한다.
 
-// 2. Callback function using functiong expression // 다른 함수의 인자로 사용,콜백
+// 2. Callback function using function expression // 다른 함수의 인자로 사용,콜백
 function randomQuiz(answer, printYes, printNo) {
-    if(andwer==='love you') {
+    if(answer==='love you') {
         printYes();
     }else {
         printNo();
@@ -126,3 +126,19 @@ const a = prompt('값을 입력해주세요');
 const b = prompt('값을 입력해주세요');
 
 calculate(command,Number(a),Number(b));
+
+// Closure
+// 자신을 포함하고 있는 외부함수의 인자, 지역변수 등을 외부함수가 종료된 이후에도 사용할수 있다. 이러한 변수를 자유변수라고 한다.
+// 클로저가 생성될때 범위 내의 지역변수들을 자유변수로 만드는 것을 캡쳐라고 한다
+function outer (){
+    var name = 'dokuny'; // 자유변수,
+    return function () {
+        console.log(name);
+    }
+}
+var inner = outer(); // inner는 outer()에서 리턴된 함수만 들고있지만,
+inner(); // 'dokuny', 출력하면 outer의 변수까지 반영이 되어있는 것을 확인할 수 있다.
+
+// 클로저를 통한 은닉화
+// 클로저를 사용하여 외부에서 변수에 직접 접근하는 것을 제한할 수 있다. 즉 자유변수를 객체지향언어의 private 멤버변수처럼 사용한다. (은닉화)
+// 클로저는 각각의 자유변수를 계속 참조하고 있기때문에 참조를 제거해주지 않으면 메모리가 소모될것이다. 그래서 클로저 사용이끝나면 참조를 제거하는것이 좋다.

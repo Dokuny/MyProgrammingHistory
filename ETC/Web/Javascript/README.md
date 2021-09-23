@@ -150,5 +150,36 @@
 ### 조건문(if,switch),반복문(for,while)
 * 자바랑 동일
 
-## 함수와 이벤트
-### 함수 알아보기
+***
+
+### 자바스크립트 출력 방식
+1. ``window.alert()`` 메소드
+   * 브라우저와는 별도의 대화 상자를 띄워 사용자에게 데이터를 전달
+     ```javascript
+      function alertDialogBox() {
+         alert("전달할 메세지를 쓰면 된다.");
+      }
+     ```
+
+2. HTML DOM 요소를 이용한 ``innerHTML`` 프로퍼티 -> 가장 많이 사용
+   * document 객체의 getElementByID()나 getElementsByTagName() 등의 메소드를 사용하여 HTML 요소를 선택
+   *  innerHTML 프로퍼티를 이용하면 선택된 HTML 요소의 내용(content)이나 속성(attribute)값 등을 변경
+      ```javascript 
+        var str = document.getElementById("text");
+   
+        str.innerHTML = "이 문장으로 바뀌었습니다!";
+      ```
+
+3. ``document.write()`` 메소드
+   * 웹 페이지가 로딩될 때 실행되면, 웹 페이지에 가장 먼저 데이터를 출력
+   * 대부분 테스트나 디버깅을 위해 사용
+     ```javascript
+      document.write('입력하세용');
+     ```
+
+4. ``console.log()`` 메소드
+   * 웹 브라우저의 콘솔을 통해 데이터를 출력
+   * 콘솔 화면을 통한 데이터의 출력은 좀 더 자세한 사항까지 출력되므로, 디버깅하는데 많은 도움이 된다
+     ```javascript
+      console.log(2 + 5);
+     ```
