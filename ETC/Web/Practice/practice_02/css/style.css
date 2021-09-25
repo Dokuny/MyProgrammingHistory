@@ -1,0 +1,273 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: "Noto Sans";
+}
+
+.Top {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    position: sticky;
+    top:0;
+    background-color: white;
+    z-index: 1;
+}
+
+.Top > .left {
+    display: flex;
+    padding: 10px 0;
+    font-size: 20px;
+    align-items: center;
+    width: 250px;
+}
+
+.Top button {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    background-color: white;
+    border: none;
+}
+
+.Top button:hover {
+    cursor: pointer;
+}
+
+.Top button:not(.except):hover {
+    border: 1px solid rgba(231, 234, 237, 0.91);
+    background-color: white;
+}
+
+.Top button:not(.except):active {
+    background-color: rgba(231, 234, 237, 0.91);
+    transition: background-color 0.1s;
+}
+
+.Top > .left > .logo a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.Top > .left > .logo a {
+    display: flex;
+    align-items: center;
+}
+
+.Top > .left > .logo a > * {
+    margin: 0 1px;
+}
+
+.Top > .left > .logo a span {
+    letter-spacing: -2px;
+}
+
+.Top > .left > .logo a i {
+    color: red;
+    font-size: 25px;
+}
+
+.Top > .left > .logo a sup {
+    font-size: 11px;
+    color: rgba(141, 141, 141, 0.91);
+    font-weight: 500;
+    position: relative;
+    top: -10px;
+}
+
+.Top > .logo > i {
+    color: red;
+}
+
+.left > .left_Btn {
+    margin: 0 20px;
+}
+
+/* top.middle*/
+.Top .middle {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    width: 50%;
+    justify-content: left;
+}
+
+.Top .middle .searchbar {
+    border: 1px solid rgba(204, 204, 204, 0.91);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+    width: 100%;
+}
+
+.Top .middle .searchbar i {
+    color: rgba(102, 102, 102, 0.91);
+}
+
+.Top .middle .searchbar i:hover {
+    color: black;
+}
+
+.Top .middle .searchbar input {
+    outline: none;
+    border: none;
+    font-size: 15px;
+    width: 100%;
+}
+
+.Top .middle .searchbar input::placeholder {
+    color: rgba(136, 136, 136, 0.91);
+}
+
+.Top .middle .searchBtn {
+    text-align: center;
+    border: 1px solid rgba(204, 204, 204, 0.91);
+    width: 42px;
+    height: 42px;
+    border-left: none;
+    text-align: center;
+    line-height: 42px;
+    width: 80px;
+}
+
+.Top .middle .searchBtn:hover {
+    cursor: pointer;
+}
+
+.Top .middle .micBtn {
+    width: 80px;
+    text-align: center;
+}
+
+/* top. right*/
+.Top .right {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 10px;
+    align-items: center;
+
+}
+
+.Top .right li {
+    padding: 0 0px;
+}
+
+.loginbox {
+    width: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(6, 95, 212, 0.91);
+    border: 1px solid rgba(6, 95, 212, 0.91);
+    padding: 8px 8px;
+    margin-left: 3px;
+}
+
+.loginbox i {
+    font-size: 23px;
+    margin-right: 3px;
+}
+
+.loginbox span {
+    text-align: center;
+}
+
+/* Body */
+.Body {
+    display: flex;
+    overflow: visible;
+}
+/* sidebar*/
+
+.Body .sidebar{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    top: 72px;
+    left:0;
+    padding: 0 0;
+    height:100%;
+
+}
+
+.Body .sidebar>*{
+    padding: 13px 0;
+}
+
+
+.Body .sidebar >ul{
+    font-size: 15px;
+}
+.Body .sidebar >ul >li i {
+    margin:0 20px;
+    width: 40px;
+    font-size: 20px;
+}
+.Body .sidebar >ul >li{
+    list-style: none;
+}
+
+.Body .sidebar >ul >li:not(.p_span):hover{
+    background-color: rgba(242,242,242,0.91);
+}
+.Body .sidebar > ul >li a{
+    display: flex;
+    text-decoration: none;
+    color: rgba(3,3,3,0.91);
+    height: 40px;
+    text-align: center;
+    align-items: center;
+}
+
+.Body .sidebar >.second {
+    border-top: 1px solid rgba(229,229,229,0.91);
+    border-bottom: 1px solid rgba(255,255,255,0.91);
+}
+
+.Body .sidebar >.login {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 35px ;
+    font-size: 15px;
+    line-height: 22px;
+    border-top: 1px solid rgba(229,229,229,0.91);
+}
+.Body .sidebar >.login span{
+    width: 180px;
+}
+.Body .sidebar >.login a{
+    margin-top: 13px;
+    width: 120px;
+    height: 38px;
+}
+.Body .sidebar .popular{
+    border-top: 1px solid rgba(229,229,229,0.91);
+}
+.Body .sidebar .popular>span{
+    margin-left: 30px;
+    margin-bottom: 10px;
+
+}
+.Body .sidebar .popular .p_span {
+    height: 30px;
+    line-height: 30px;
+    margin-left: 30px;
+    color:rgba(141,141,141,0.91) ;
+    font-weight: bolder;
+}
+
+/*Main*/
+.Body .main{
+
+}

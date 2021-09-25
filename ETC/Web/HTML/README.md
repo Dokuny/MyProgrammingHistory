@@ -177,3 +177,35 @@
   * submit : 폼을 서버로 전송
   * reset : 폼에 입력한 내용 초기화
   * button : 기능없는 버튼
+
+
+***
+## meta태그를 이용한 viewport 설정
+* 모바일 웹 해상도는 viewport라는 <meta> 태그를 이용해서 설정 
+* meta viewport는 IE10 모바일 브라우저(스냅 모드)를 제외한 나머지(안드로이드, 오페라 등) 브라우저는 적용되고 있다.
+* 즉, 이 태그는 W3C의 표준이 아님.
+
+```html
+  <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
+  maximum-scale=1.0, minimum-scale=1.0">
+  </head>
+  <body>
+    ....
+  </body>
+</html>
+```
+
+1. width=device-width
+   * 사용자가 접속한 기기 화면의 넓이에 따라 웹사이트의 넓이를 맞추겠다는 것을 의미. 따라서 device-width는 100%의 크기로 화면에 출력
+ 
+2. user-scalable=no
+   * 사용자가 브라우저의 확대/축소를 불가능하게 하는 기능. yes와 no로 설정
+3. initial-scale=1.0
+   * 사용자가 처음 접속한 웹사이트 화면의 배율을 설정하는 기능. 1.0은 100%를 의미. 즉, 1보다 큰 값으로 적용하면 확대된 페이지로 표시
+4. maximum-scale=1.0
+   * 최대 배율을 의미하는 것으로 최대 크기를 설정. 1에서 10까지.
+5. minimum-scale=1.0
+   * 최소 배율을 의미하는 것으로 최소 크기를 설정. 1에서 10까지 
+

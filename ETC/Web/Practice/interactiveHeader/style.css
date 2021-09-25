@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: "Yu Gothic UI", serif;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(35,45,59,0.91);
+    padding: 8px 12px;
+}
+
+.navbar_logo {
+    font-size: 24px;
+    color: white;
+}
+
+.navbar_logo i {
+    color: rgba(169,123,93,0.91);
+}
+
+.navbar_menu {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
+.navbar_menu li {
+    padding:8px 12px;
+}
+
+.navbar_menu li:hover{
+    background-color: rgba(205,136,93,0.91);
+    border-radius: 4px;
+}
+
+.navbar_icons {
+    display: flex;
+    list-style: none;
+    color: white;
+}
+.navbar_icons li {
+    padding: 8px 12px;
+}
+
+.navbar_toggleBtn {
+    display: none;
+    position: absolute;
+    font-size: 24px;
+    top : 10px;
+    right: 32px;
+    color: rgba(205,136,93,0.91);
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 24px;
+    }
+
+    .navbar_menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .navbar_menu li:hover {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar_icons {
+        display: none;
+        width: 100%;
+        margin-top: 20px;
+        justify-content: center;
+    }
+    .navbar_toggleBtn{
+        display: block;
+    }
+    .navbar_menu.active,
+    .navbar_icons.active{
+        display: flex;
+    }
+}

@@ -84,8 +84,38 @@ console.log(user);
 const user4={};
 Object.assign(user4,user);
 console.log(user4);
-// const user4 = Object.assign({},user); 이렇게 해도된다
-
+// const user4 = Object.assign({},user); 이렇게 해도된다, 앞의 매개변수가 초기값,뒤의 매개변수가 복제될 객체
 const a = Object.assign(dokuny);
 console.log(a);
+console.clear();
+
+// Object.keys() : 키 배열 반환
+console.log(Object.keys(user));
+
+// Object.values() : 밸류 배열 반환
+console.log(Object.values(user));
+
+// Object.entries() : 키/값 배열 반환
+const userEn = Object.entries(user);
+console.log(userEn);
+
+// Object.fromEntries() : 키/값 배열을 객체로 만들어줌
+console.log(Object.fromEntries(userEn));
+
+// Symbol형 (위의 keys,values,entries는 symbol형을 건너 뛴다 -> 심볼은 반환값에 포함안된다.)
+const id = Symbol('id');
+const user10 = {
+    name : 'mike',
+    age : 23,
+    [id] : 'myid',
+}
+
+console.log(user10[id]);
+
+// Symbol.for
+// 하나의 심볼만을 보장받음
+// 심볼함수는 매번 다른 심볼 값을 생성하지만 Symbol.for 메소드는 하나를 생성한뒤  키를 통해 같은 심볼을 공유
+const id1 = Symbol.for('id');
+const id2 = Symbol.for('id');
+console.log(id1===id2); // true
 
