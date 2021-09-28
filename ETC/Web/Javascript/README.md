@@ -183,3 +183,361 @@
      ```javascript
       console.log(2 + 5);
      ```
+***
+   
+## 스코프(Scope)
+* 식별자가 유효한 범위를 뜻함
+### 스코프의 종류
+* 전역 스코프
+  * 전역은 ``가장 바깥 영역``,전역에서 선언된 변수는 어디서든지 참조할 수 있는 전역스코프를 가지는 전역 변수가 된다.
+* 지역 스코프
+  * 대부분의 프로그래밍언어는 함수 몸체만이 아니라 모든 코드블록이 지역스코프를 만든다(=``블록레벨 스코프``)
+  * 자바스크립트의 지역은 ``함수 몸체 내부``, 지역변수는 지역스코프를 가지며 자신의 지역스코프와 하위지역 스코프에서 유효하다.
+  * 즉,``var``키워드로 선언된 변수는 오로지 함수의 코드블록만을 지역스코프로 인정한다.(자바스크립트의 지역스코프=``함수 레벨 스코프``)
+  * ``let``,``const``는 블록레벨스코프를 지원한다.
+ 
+### 스코프 체인
+  * 함수가 중첩될 수 있으므로 함수의 지역스코프도 중첩될 수 있다.
+  * 스코프가 함수의 중첩에 의해 계층적 구조를 갖는다는 것을 의미(스코프체인)
+  * 변수를 참조할 때 자바스크립트 엔진은 스코프 체인을 통해 변수를 참조하는 코드의 스코프에서 시작하여  
+    상위 스코프 방향으로 이동하며 선언된 변수를 검색한다.  (=물리적인 스코프체인이 렉시컬 환경)
+### 함수레벨 스코프 
+  ```javascript
+   var x=1;
+   if(true){       
+       var x=10;   // var 키워드로 선언된 변수는 코드블록 내에서 선언되었다 할지라도 함수 내부가 아니면 전부 전역 변수다.
+   }               // ES6에서 도입된 let,const는 블록레벨 스코프를 지원한다.
+   console.log(x); // 10
+  ```
+### 렉시컬 스코프
+* 상위 스코프 결정 방법
+  * 동적 스코프 : 함수가 호출되는 시점에 동적으로 상위 스코프를 결정
+  * 렉시컬 스코프(정적 스코프) : 함수를 정의하는 시점에서 정적으로 상위 스코프를 결정
+
+
+* 자바스크립트는 렉시컬 스코프를 따른다
+  * 함수를 어디서 호출했는지가 아닌 함수를 어디서 정의했는지에 따라 상위 스코프를 결정한다.
+  * 즉, 함수의 상위 스코프는 언제나 자신이 정의된 스코프다.
+  ```javascript
+        var x =1;
+  
+        function foo(){
+            var x=10;
+            bar();         // bar함수가 정의된 곳은 foo함수의 스코프가 아닌 상위의 전역스코프이다.
+        }
+		
+        function bar(){    // 렉시컬스코프이므로 같은 스코프에 들어있는 첫번째 var x가 나온다.
+            console.log(x);
+        }
+		
+        foo(); // 1이 출력 /
+        bar(); // 1이 출력
+  ```
+  
+***
+## 전역 변수의 문제점
+### 변수의 생명 주기
+* 변수는 선언에 의해 생성,할당을 통해 값을 갖고 언젠가 소멸한다(생명주기가 존재)
+  * 변수에 생명주기가 없다면 한번 선언된 변수는 프로그램을 종료하지 않는 한 영원히 메모리 공간을 점유
+* 변수는 자신이 선언된 위치에서 생성되고 소멸
+  * 전역 변수의 생명 주기는 애플리케이션의 생명주기와 동일
+    * var 키워드로 선언한 전역 변수는 전역객체(브라우저에선 window객체)의 생명주기와 일치.
+  * 지역 변수는 함수가 호출되면 생성되고 함수가 종료되면 소멸(지역변수는 함수의 생명주기와 일치)
+    * 변수는 자신이 등록된 스코프가 소멸될 때 까지 유효하다. 
+    * but, 누군가가 함수의 스코프를 참조하고 있다면 함수가 종료되었더라도 스코프는 해제되지않고 생존한다(=클로저)
+
+
+
+### 전역 변수의 문제점 
+1. ``암묵적 결합``의 허용
+   * 모든 코드가 전역 변수를 참조하고 변경할 수 있다는 것   
+   -> 유효범위가 클수록 가독성이 나빠지고 상태가 변경될 수 있는 위험성도 높아진다.
+2. 긴 생명주기
+   * 의도치 않은 재할당 발생
+   * 메모리 리소스를 오랜시간 차지
+3. 스코프 체인 상에서 종점에 존재
+   * 전역 변수의 검색속도가 가장 느리다
+4. 네임스페이스 오염
+   * 자바스크립트는 파일이 분리되어 있다 해도 하나의 전역 스코프를 공휴한다.
+   * 만약 다른 파일 내에서 동일한 이름으로 명명된 전역변수나 전역함수가 같은 스코프 내에 존재하면 예상치 못한 결과가 발생한다.
+
+### 전역 변수의 사용을 억제하는 방법
+* 전역 변수를 반드시 사용해야 할 이유를 찾지 못한다면 지역 변수를 사용해야 한다. 변수의 스코프는 좁을수록 좋다.
+* 억제방법
+  1. 즉시 실행 함수
+     ```javascript
+       (function(){       // 함수 정의와 동시에 호출되는 즉시 실행 함수는 단 한번만 호출된다.
+           var foo=10;    // 모든 코드를 즉시 실행함수로 감싸면 모든 변수는 즉시 실행 함수의 지역변수가 된다.
+       }());
+        console.log(foo);
+     ```
+  2. 네임스페이스 객체
+     ```javascript
+        var MYAPP ={};        // 전역 네임 스페이스 객체
+        MYAPP.name = 'Lee';   // 전역에 네임스페이스 역할을 담당할 객체를 생성하고 전역 변수처럼 사용하고 싶은 변수를 프로퍼티로 추가
+        console.log(MYAPP.name); // Lee
+     
+        MYAPP.person ={       // 네임스페이스 객체에 또 다른 네임스페이스 객체를 프로퍼티로 추가해서 
+          name : 'Lee',       // 네임스페이스를 계층적으로 구성할 수도 있다.
+          address : 'Seoul',  
+        };
+        console.log(MYAPP.person.name); // Lee
+     
+        // 네임스페이스 객체방식은 네임스페이스 객체 자체가 전역 변수에 할당되므로 그다지 유용하지는 않음
+     ```
+  3. 모듈 패턴
+     * 모듈 패턴은 클래스를 모방해서 관련이 있는 변수와 함수를 모아 즉시 실행 함수로 감싸 하나의 모듈을 만든다
+     * 클로저를 기반으로 동작(캡슐화 까지 구현 가능)
+     ```javascript
+      var Counter =(function (){
+            //private 변수
+            var num=0;
+     
+            // 외부로 공개할 데이터나 메서드를 프로퍼티로 추가한 객체를 반환한다.
+            return {
+                increase(){
+                     return ++num;
+                },
+                decrease(){
+                     return --num;
+                }      
+            }; 
+      }());
+     
+     // private 변수는 외부로 노출 X  
+     console.log(Counter.num); // undefined
+     
+     console.log(Counter.increase()); // 1
+     console.log(Counter.increase()); // 2
+     console.log(Counter.decrease()); // 1
+     console.log(Counter.decrease()); // 0
+     ```
+  4. ES6 모듈
+    * ES6 모듈을 사용하면 더는 전역 변수를 사용할 수 없다.
+    * ES6 모듈은 파일 자체의 독자적인 모듈 스코프를 제공한다.
+    * 모듈 내에서 var 키워드로 선언한 변수는 더는 전역변수가 아니며 window 객체의 프로퍼티도 아니다
+    * 모던브라우저에서 사용가능
+    * ``<script>``에 ``type="module"`` 어트리뷰트를 추가하면 로드된 자바스크립트 파일은 모듈로서 동작한다.확장자는 mjs권장
+    ```javascript
+    <script type="module" src="lib.mjs"></script>
+    <script type="module" src="app.mjs"></script>
+    ```
+    * 구형브라우저에서는 동작하지않고, 사용하더라도 트랜스파일링이나 번들링이 필요하기 때문에 모듈번들러를 사용하는 것이 일반적
+  
+***
+## let.const 키워드와 블록 레벨 스코프
+### var 키워드로 선언한 변수의 문제점 
+1. 변수 중복 선언 허용
+2. 함수 레벨 스코프
+3. 변수 호이스팅
+
+### let 키워드 장점
+1. 변수 중복 선언 금지
+2. 블록 레벨 스코프
+3. 변수 호이스팅
+   * let은 변수 선언단계와 초기화단계가 분리되어 진행
+   * 스코프의 시작지점부터 초기화 시작 지점까지 변수를 참조할 수 없는 Temporal Dead Zone(TDZ)형성으로 let도 호이스팅되지만 작동 X
+
+### const 키워드
+1. 선언과 동시에 초기화를 해야함
+2. 블록레벨 스코프 및 호이스팅 하지 않는 것처럼 동작
+3. 재할당 금지
+4. ``원시값``을 할당할 경우 ``상수``로 작용
+5. ``객체``를 할당할 경우 값 변경 가능(재할당 없이도 가능하기 때문) -> 재할당만 금지지 불변은 아니다.
+
+### 뭐가 좋을까
+1. ES6를 사용한다면 var 키워드를 사용하지 않기
+2. 재할당이 필요한 경우에만 let 사용,이 때 변수의 스코프는 최대한 좁게 만든다
+3. 변경이 발생하지 않고 읽기전용으로 사용하는 원시 값과 객체에는 const 사용(우선 const사용하고 나중에 let으로 바꾸자.)
+
+***
+
+## 프로퍼티 어트리뷰트(Property Attribute)
+### 내부 슬롯과 내부 메서드
+* 내부슬롯과 내부메서드는 자바스크립트 엔진의 내부 로직이므로 원칙적으로 직접적으로 접근하거나 호출할 수 있는 방법은 없다.
+* 다만, 일부 내부 슬롯과 내부 메서드에 한해서 간접적으로 접근할 수 있는 수단을 제공한다.
+```javascript
+ const o={};
+//o.[[Prototype]]                         * 내부 슬롯인 [[Prototype]]은 접근할 수 없지만
+o.__proto__  //   -> Object.prototype     * __proto__ 를 통해 간접적으로 접근할 수 있다.
+```
+
+### 프로퍼티 어트리뷰트와 프로퍼티 디스크립터 객체
+* 자바스크립트 엔진은 프로퍼티를 생성할 때 프로퍼티의 상태를 나타내는 ``프로퍼티 어트리뷰트``를 **기본값**으로 **자동 정의**한다.
+  * 프로퍼티 상태란? 
+    * 프로퍼티의 값<sup>value</sup> ->```[[Value]]```
+    * 값의 갱신 가능 여부<sup>writable</sup> -> ``[[Writable]]``
+    * 열거 가능 여부<sup>enumerable</sup> -> ``[[Enumerable]]``
+    * 재정의 가능 여부<sup>configurable</sup> -> ``[[Configurable]]``
+* 위의 상태들은 내부슬롯이기 때문에 ``Object.getOwnPropertyDescriptor``메소드로 간접적으로 확인할 수 있다.
+    ```javascript
+    const person = {
+      name : 'Lee',
+    };
+    
+    // 프로퍼티 동적 생성 
+    person.age = 20;
+    
+    // 모든 프로퍼티의 프로퍼티 어트리뷰트 정보를 제공하는 디스크립터 객체를 반환한다.
+    // 존재하지 않는 프로퍼티나 상속받은 프로퍼티에 대한 디스크립터를 요구하면 undefined를 반환한다.
+    // Object.getOwnPropertyDescriptors는 모든 프로퍼티의 정보를 디스크립터 객체로 반환(ES8)
+    // Object.getOwnPropertyDescriptor는 하나의 프로퍼티에 대한 디스크립터 객체를 반환 
+    console.log(Object.getOwnPropertyDescriptors(person));
+    
+    /*
+    {
+      name : {value: "Lee", writable: true, enumerable: true, configurable: true},
+      age : {value: 20, writable: true, enumerable: true, configurable: true},
+    }
+    */
+    ```
+### 데이터 프로퍼티와 접근자 프로퍼티
+* 프로퍼티는 데이터 프로퍼티와 접근자 프로퍼티로 구분
+  * 데이터 프로퍼티 : 키와 값을 구성된 일반적인 프로퍼티
+  * 접근자 프로퍼티 : 자체적으로는 값을 갖지 않고 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 호출되는 접근자 함수로 구성된 프로퍼티  
+    * 접근자 함수 = getter/setter 함수 -> 접근자 프로퍼티는 게터와 세터 함수를 모두 정의할 수도,하나만 할 수도 있다.(자바게터세터같음)
+    ```javascript
+    const person = {
+        // 데이터 프로퍼티
+        firstName : 'dokuny',
+        lastName : 'Lee',
+        
+        // fullName은 접근자 함수로 구성된 접근자 프로퍼티다.
+        // getter 함수
+        get fullName(){
+            return `${this.firstName} ${this.lastName}`;
+        },
+        // setter 함수
+        set fullName(name){
+            // 배열 디스트럭처링 할당
+            [this.firstName, this.lastName] = name.split(' ');
+        }   
+    };
+    
+    // 데이터 프로퍼티를 통한 프로퍼티 값의 참조
+    console.log(person.firstName+' '+person.lastName); // dokuny Lee
+    
+    // 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+    // 접근자 프로퍼티 fullName에 값을 저장하면 setter함수가 호출된다
+    person.fullName = 'dokuny Lee';
+    console.log(person); // {firstName: "dokuny", lastName:"Lee"}
+    
+    // 접근자 프로퍼티를 통한 프로퍼티 값의 참조 
+    // 접근자 프로퍼티 fullName에 접근하면 getter함수가 호출된다
+    console.log(person.fullName); // dokuny Lee
+    ```
+    
+### 프로퍼티 정의
+* 새로운 프로퍼티를 추가하면서 프로퍼티 어트리뷰트를 명시적으로 정의하거나, 기존 프로퍼티의 어트리뷰트를 재정의하는 것을 의미
+* Object.defineProperty메서드 사용
+```javascript
+const person ={};
+
+// 데이터 프로퍼티 정의
+Object.defineProperty(person,'firstName',{
+    value : 'Dokuny',
+    writable : true,
+    enumerable : true,
+    configurable : true
+});
+// 디스크립터 객체의 프로퍼티를 누락함(프로퍼티 정의시 어트리뷰트를 전부 적지 않으면 적지 않은 어트리뷰트는 누락되어버려 undefined,false 처리 된다.)
+Object.defineProperty(person,'lastName',{
+    value:'Lee'
+});
+
+descriptor = Object.getOwnPropertyDescriptor(person,'lastName');
+console.log('lastName', descriptor);
+// lastName {value : "Lee", writable: false, enumerable : false, configurable :false} 적지않은 어트리뷰트는 누락되어 false처리
+
+// [[Enumerable]]의 값이 false인 경우
+// 해당 프로퍼티는 for...in 문이나 Object.keys 등으로 열거할 수 없다.
+console.log(Object.keys(person)); // ["firstName"]
+
+// [[Writable]]의 값이 false인 경우, 해당 프로퍼티의 [[Value]]값을 변경할 수 없다.
+// 이때 , 값을 변경하면 에러는 발생하지 않고 무시된다.
+person.lastName = 'Kim';
+
+// [[Configurable]]의 값이 false인 경우 해당 프로퍼티를 삭제할 수 없다.
+// 삭제하면 에러발생없이 무시된다
+delete person.lastName;
+
+// 또한, 재정의 할 수 없다
+// Object.defineProperty(person, 'lastName', {enumerable:true});
+// 위 처럼 정의하면 에러발생
+
+// 접근자 프로퍼티 정의
+Object.defineProperty(person, 'fullName', {
+    //getter 함수
+    get() {
+        return `${this.firstName} ${this.lastName}`;
+    },
+    
+    //setter 함수
+    set(name){
+        [this.firstName, this.lastName] = name.split(' ');
+    },
+    enumerable : true,
+    configurable : true
+});
+```
+* Object.defineProperty 메소드로 프로퍼티 정의할 때 디스크립터 객체의 프로퍼티를 일부 생략가능
+  * value,get,set -> 생략시 undefined
+  * writable,enumerable,configurable -> 생략시 false
+* Object.defineProperty는 한번에 하나의 프로퍼티만 정의
+* Object.defineProperties는 한번에 여러개의 프로퍼티를 정의
+
+### 객체 변경 방지
+* Object.preventExtensions 메서드 : 객체확장금지(프로퍼티추가 X,삭제는 가능)
+* Object.seal 메서드 : 객체 밀봉(프로퍼티 추가,삭제,어트리뷰트 재정의 X,프로퍼티 값 읽기와 쓰기만 가능)
+* Object.freeze 메서드 : 객체 동결(프로퍼티 값 읽기만 가능)
+* 위의 세개는 얕은 변경방지로 직속 프로퍼티만 변경이 방지되고 중첩 객체까지는 영향을 주지 못한다.
+* 중첩 객체까지 해주려면 직접 전부 해줘야함
+
+***
+## 생성자 함수에 의한 객체 생성
+### Object 생성자 함수
+* new 연산자와 함께 Object 생성자 함수를 호출하면 빈 객체를 생성하여 반환
+* 빈 객체에 프로퍼티 또는 메소드를 추가
+    ```javascript
+    const person = new Object();
+    person.name = 'dokuny';
+    person.sayHello = function(){
+        console.log('Hi! My name is '+ this.name);
+    }
+    ```
+### 생성자 함수
+1. 객체 리터럴에 의한 객체 생성 방식의 문제점
+   * 한번에 하나의 객체만 생성할 수 있다.
+   * 따라서, 동일한 프로퍼티를 갖는 객체를 여러개 생성해야할 경우 같은 프로퍼티를 반복배서 기술해야하기에 비효율적
+2. 생성자 함수에 의한 객체 생성방식의 장점
+   * 함수를 클래스처럼 사용하여 간편하게 동일한 객체 여러개 생성가능
+   ```javascript
+    // 생성자 
+    function Circle(radius){
+        // 생성자 함수 내부의 this는 생성자 함수가 생성할 인스턴스를 가리킨다.
+         this.radius =radius;
+         this.getDiameter = function(){
+           return 2 * this.radius;
+         };
+    }
+   
+   // 인스턴스의 생성 new 연산자 이용
+   const circle1 = new Circle(5); // 반지름 5인 Circle객체 생성
+   const circle2 = new Circle(10); // 반지름 10인 Circle객체 생성
+   
+   // new 연산자가 없는 경우
+   const circle3 = Circle(15); // 일반 함수로서 호출된 것임, 명시적인 return값이 없으므로 undefined
+   ```
+3. 생성자 함수의 인스턴스 생성 과정
+* new 연산자와 함께 생성자 함수를 호출하면 자바스크립트 엔진은 밑의 과정을 통해 암묵적으로 인스턴스를 반환한다.
+    1. 인스턴스 생성과 this 바인딩
+       * 암묵적으로 빈 객체가 생성되고 이 인스턴스는 ``this``에 ``바인딩 (식별자와 값을 연결하는 과정)``된다
+    2. 인스턴스 초기화
+       * 생성자 함수에 기술되어 있는 코드가 한 줄씩 실행되어 ``this``에 바인딩되어 있는 인스턴스를 초기화한다.
+    3. 인스턴스 반환
+       * 생성자 함수 내부의 모든 처리가 끝나면 (완성된 인스턴스가 바인딩된) ``this``가 암묵적으로 반환된다.
+       * 만약 this가 아닌 ``다른 객체``를 명시적으로 반환하면 this가 반환되지 못하고 return문에 명시한 객체가 반환된다.
+       * 그러나 명시적으로 ``원시 값``을 반환하면 원시 값 반환은 무시되고 암묵적으로 this가 반환된다.
+       * 이러한 this가 아닌 다른 값을 반환하는 것은 지양하고 return문을 반드시 생략할 것 
+4. 내부 메서드 ``[[Call]]``과 ``[[Construct]]``
+5. 
