@@ -540,4 +540,31 @@ Object.defineProperty(person, 'fullName', {
        * 그러나 명시적으로 ``원시 값``을 반환하면 원시 값 반환은 무시되고 암묵적으로 this가 반환된다.
        * 이러한 this가 아닌 다른 값을 반환하는 것은 지양하고 return문을 반드시 생략할 것 
 4. 내부 메서드 ``[[Call]]``과 ``[[Construct]]``
-5. 
+    * 함수는 객체이므로 일반객체와 동일하게 동작(내부메서드와 내부슬롯을 가지고 있기 때문)
+    ```javascript
+    function foo(){}
+   
+    // 함수는 객체이므로 프로퍼티 소유 가능
+    foo.prop = 10;
+    
+    // 함수는 객체이므로 메서드 소유 가능
+    foo.method = function(){
+        console.log(this.prop);
+    };
+   
+    foo.method();  // 10
+    ```
+    * 일반 객체는 호출할 수 없지만, 함수는 호출할 수 있다.
+    * 일반객체의 내부슬롯,내부메서드 + 함수로서 동작하기 위해 함수 객체만 가지고 있는 ``[[Environment]],[[FormalParameters]]``등 의  
+    내부 슬롯과 ``[[Call]].[[Contruct]]``같은 내부메서드를 추가로 가지고 있음
+    * 일반 함수로 호출되면 ``[[Call]]``이 호출 -> Callable
+    * new연산자와 함께 생성자 함수로서 호출되면 ``[[Contruct]]``가 호출 -> Constructor
+    * 객체를 생성자 함수로서 호출할 수 없는 함수 = non-constructor
+    * 호출할 수 없는 객체는 함수객체가 아니므로 모든 함수 객체는 Callable이다. -> 모든 함수는 ``[[Call]]``을 가지고 있다
+    * 하지만 모든 함수 객체가 ``[[Constructor]]``를 갖는 것은 아니다.  -> non-constructor가 존재하기 때문
+
+
+5. constructor와 non-constructor 구분
+    * constructor : 함수 선언문,함수 표현식,클래스
+    * non-constructor : 메서드(메서드 축약표),화살표 함수
+    
