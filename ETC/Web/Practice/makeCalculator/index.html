@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>계산기</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h3>계산기 만들기</h3>
+		<div id="wrapper">
+			<div class="output">
+				<span id="numBoard"></span>
+			</div>
+			
+			<table class="btns">
+				<tr>
+					<td><button id="leftPBtn" onclick="clickBtn(this)">(</button></td>
+					<td><button id="sevenBtn" onclick="clickBtn(this)">7</button></td>
+					<td><button id="eightBtn" onclick="clickBtn(this)">8</button></td>
+					<td><button id="nineBtn" onclick="clickBtn(this)">9</button></td>
+					<td><button id="divideBtn" onclick="clickBtn(this)">/</button></td>
+				</tr>
+				<tr>
+					<td><button id="rightPBtn" onclick="clickBtn(this)">)</button></td>
+					<td><button id="fourBtn" onclick="clickBtn(this)">4</button></td>
+					<td><button id="fiveBtn" onclick="clickBtn(this)">5</button></td>
+					<td><button id="sixBtn" onclick="clickBtn(this)">6</button></td>
+					<td><button id="multipleBtn" onclick="clickBtn(this)">x</button></td>
+				</tr>
+				<tr>
+					<td><button id="resetBtn" onclick="clickBtn(this)">R</button></td>
+					<td><button id="oneBtn" onclick="clickBtn(this)">1</button></td>
+					<td><button id="twoBtn" onclick="clickBtn(this)">2</button></td>
+					<td><button id="threeBtn" onclick="clickBtn(this)">3</button></td>
+					<td><button id="subtractBtn" onclick="clickBtn(this)">-</button></td>
+				</tr>
+				<tr>
+					<td><button id="zeroBtn" onclick="clickBtn(this)">B</button></td>
+					<td><button id="doubleZeroBtn" onclick="clickBtn(this)">0</button></td>
+					<td><button id="decimalBtn" onclick="clickBtn(this)">.</button></td>
+					<td><button id="resultBtn" onclick="clickBtn(this)">=</button></td>
+					<td><button id="plusBtn" onclick="clickBtn(this)">+</button></td>
+				</tr>
+			</table>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
