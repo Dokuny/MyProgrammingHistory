@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		#box{
+			width: 100px;
+			height: 100px;
+			background-color:black;
+		}
+	</style>
+	
+</head>
+<body>
+	<div id="box"></div>
+	<input id="pickColor" type="color" >
+	<button onclick="changeColor()">변경</button>
+	
+	<script type="text/javascript">
+		function changeColor(){
+			const pColor = document.getElementById('pickColor');
+			const box = document.getElementById('box');
+			let color = pColor.value;
+			box.style.backgroundColor= color;
+			
+		}
+	</script>
+</body>
+
+</html>
