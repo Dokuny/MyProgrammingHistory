@@ -566,5 +566,306 @@ Object.defineProperty(person, 'fullName', {
 
 5. constructor와 non-constructor 구분
     * constructor : 함수 선언문,함수 표현식,클래스
-    * non-constructor : 메서드(메서드 축약표),화살표 함수
+    * non-constructor : 메서드(메서드 축약표현),화살표 함수
+    ```javascript
+    // 일반 함수 정의 : 함수 선언문,함수 표현식
+    function foo(){}
+    const bar = function(){};
+    // 프로퍼티의 값으로 할당된 것은 일반 함수로 정의된 함수다. 메서드로 인정하지 않는다
+    const stic = {
+        x: function(){}  // 일반함수 O, 메서드 X, constructor 존재
+    };
+   
+    new bar();
+    new foo();
+    new stic.x();
+   
+    // 화살표 함수 정의
+    const arrow = () =>{};
+    new arrow(); // 타입에러 발생
+   
+    const obj = {
+        x(){}
+    };
+   
+    new obj.x(); // 타입에러
+    ```
+   
+6. new 연산자
+    * 일반 함수와 생성자 함수에 특별한 형식적 차이는 없다. new 연산자 붙이면 똑같이 생성자 함수로 동작
+    * 일반 함수인데 객체를 반환하지 않으면 return문이 있어도 무시되고 빈 객체를 생성하여 반환한다.
+    * 객체를 반환하면 생성자 함수처럼 작동
+
+7. new.target
+   * new 연산자와 함께 생성자 함수로서 호출되면 함수 내부의 new.target은 함수 자신을 가리킨다.
+   * new 연산자 없이 일반 함수로 호출된 함수내부의 new.target은 undefined다 
+   * IE는 지원하지 않는다
+   ```javascript
+    function Circle(radius){
+        // 이 함수가 new 연산자와 함께 호출되지 않았다면 new.target은 undefined다.
+        if(!new.target){
+            //new 연산자와 함께 생성자 함수를 재귀 호출하여 생성된 인스턴스를 반환한다.
+            return new Circle(radius);
+        }
+        this.radius = radius;
+        this.getDiameter = function(){
+            return 2*this.radius;
+        }
+    }
+   
+   // new 연산자 없이 생성자 함수를 호출하여도 new.target을 통해 생성자 함수로서 호출된다
+    const circle = Circle(5);
+    console.log(circle.getDiameter());
+   ```
+   * IE같이 new.target을 못쓴다면
+   ```javascript
+    function Circle(radius){
+          if(!(radius instanceof Circle)){ // 이렇게 작성하자.
+             return new Circle(radius);
+          }
+          this.radius = radius;
+          this.getDiameter = function(){   
+            return 2*this.radius;
+          }
+   }
+    const circle = Circle(5);
+    console.log(circle.getDiameter());
+   ```
+   
+***
+
+## 함수와 일급 객체
+### 일급 객체
+* 조건
+  1. 무명의 리터럴로 생성할 수 있다(런타임에 생성이 가능하다)
+  2. 변수나 자료구조(객체,배열 등)에 저장할 수 있다
+  3. 함수의 매개변수에 전달될 수 있다
+  4. 함수의 반환값으로 사용할 수 있다
+
+### 함수 객체의 프로퍼티
+1. arguments 프로퍼티
+   * 함수 객체의 arguments 프로퍼티 값은 arguments 객체다.
+   * 함수 호출 시 전달된 인수들의 정보를 담고 있는 순회가능한<sup>iterable</sup> 유사 배열 객체이며 지역변수처럼 사용된다.(외부에서 참조못함)
+   * ES3부터 표준에서 폐지, ``arguments 객체``를 참조하도록 한다.
+   * 함수를 정의할 때 선언한 매개변수는 함수 몸체 내부에서 변수와 동일하게 취급
+     * 함수 호출 -> 암묵적으로 매개변수 선언 -> undefined초기화 -> 인수 할당
+   * 매개변수 개수보다 인수가 적으면 매개변수는 undefined 유지, 인수가 더 많으면 초과된 인수는 무시
+     * 초과된 인수는 arguments객체의 프로퍼티로 보관된다(모든 인수가 보관된다)
+     * arguments 객체는 ``가변인자 함수``를 구현할 때 유용하다
+     ```javascript
+        function sum(){
+            let res = 0;
+            
     
+            // arguments 객체는 length 프로퍼티가 있는 유사 배열 객체이므로 for문으로 순회가능
+            for(let i =0; i<arguments.length;i++) {
+                res += arguments[i];
+            }
+            
+            return res
+        } 
+   
+        console.log(sum());      // 0
+        console.log(sum(1,2));   // 3
+        console.log(sum(1,2,3)); // 6
+     ```
+   * arguments 객체는 실제 배열이 아닌 유사배열객체(length 프로퍼티를 가진 객체로 for문 순회가능)
+   * 그래서 배열 메서드는 사용 못함,사용하려면 간접호출을 통해서 사용
+   * 하지만 ES6부터 ``...``라는 ``Rest 파라미터``를 도입해서 사용가능 -> arguments 객체 대신 사용가능
+    ```javascript
+    function sum(...args){ // Rest 파라미터
+        return args.reduce((pre,cur)=>pre+cur,0);
+    }
+   
+    console.log(sum(1,2));        // 3
+    console.log(sum(1,2,3,4,5));  // 15
+    ```
+   
+2. length 프로퍼티
+   * 함수 객체의 length 프로퍼티는 함수를 정의할 때 선언한 ``매개변수의 개수``를 가리킴
+    ```javascript
+    function foo(){}
+    console.log(foo.length); // 0
+   
+    function bar(x){}
+    console.log(bar.length); // 1
+    ```
+    * arguments 객체의 length는 argument의 개수고,함수 객체의 length는 parameter의 개수임
+
+
+3. name 프로퍼티
+   * ES5와 ES6에서 동작이 다르다.(비표준이다가 ES6에서 정식표준 되었기 때문)
+     * 익명 함수 표현식의 경우 ES5는 name 프로퍼티가 빈 문자열 값을 갖는다.
+     * ES6에서는 함수 객체를 가리키는 식별자(변수 이름)를 값으로 갖는다.
+    ```javascript
+    // 기명 함수 표현식
+    var nameFunc = function foo() {};
+    console.log(nameFunc.name); // foo
+   
+    // 익명 함수 표현식
+    var anonymousFunc = function(){};
+    console.log(anonymousFunc.name); // anonymousFunc , ES5에서는 빈 문자열
+   
+    // 함수 선언식
+    function bar(){};
+    console.log(bar.name); // bar
+    ```
+
+4. ``__proto__`` 접근자 프로퍼티
+    * 모든 객체는 ``[[Prototype]]``이라는 내부 슬롯을 가진다. -> 상속을 구현하는 프로토타입 객체를 가리킴
+    * ``__proto__``프로퍼티는 내부 슬롯이 가리키는 프로토타입 객체에 접근하기 위해 사용하는 접근자 프로퍼티 
+
+
+5. prototype 프로퍼티
+   * 생성자 함수(constructor)만 가지고있는 프로퍼티
+   * 일반 객체나 non-constructor에는 없다
+   * 함수가 생성자 함수로 호출 될 때, prototype프로퍼티는 함수가 생성하는 인스턴스의 프로토타입 객체를 가리킨다.
+***
+   
+## 프로토 타입
+### 객체지향 프로그래밍
+* 실체는 특징이나 성질을 나타내는 속성<sup>attribute/property</sup>을 가지고 있다
+* 이러한 속성 중에 필요한 속성만을 간추려 내어 표현하는 것을 추상화<sup>abstraction</sup>라 한다.
+* 속성을 통해 여러 개의 값을 하나의 단위로 구성한 복합적인 자료구조를 객체라 한다.
+* 객체지향 프로그래밍은 독립적인 객체의 집합으로 프로그램을 표현하려는 프로그래밍 패러다임
+* 객체 = 상태(state=property) + 동작(be-havior=method)
+
+
+### 상속과 프로토타입
+* 생성자 함수로 생성하는 객체(인스턴스)는 프로퍼티 값을 직접 바꿔주지 않는 이상 동일한 프로퍼티값을 가지고 있다.
+  * 이는 만약 동일한 메소드를 사용하는 객체라면 불필요하게 메소드까지 중복하여 소유한다는 것을 의미한다.
+  * 이러한 불필요한 중복을 ``프로토타입``을 기반으로 ``상속``을 구현하여 제거한다.
+    ```javascript
+    // 그냥 사용
+    function Circle(radius){
+        this.radius = radius;
+        this.getArea = function(){
+            return Math.PI * this.radius ** 2;
+        }
+    }
+		
+    const c1 = new Circle(1);
+    const c2 = new Circle(2);
+    
+    // 동일한 Constructor로 생성된 객체의 객체 프로퍼티는 같아보여도 다른 값(ref)을 지닌다.
+    // 원시타입 프로퍼티는 값이 동일하면 동일함.
+    console.log(c1.getArea === c2.getArea); // false
+    ```
+  
+    ```javascript
+    //프로토타입 방식
+    function Circle(radius){
+        this.radius = radius;
+    }
+    
+    // 프로토타입에 추가하는 법(생성자 함수의 prototype 프로퍼티에 바인딩시키기)
+    Circle.prototype.getArea = function(){
+        return Math.PI * this.radius ** 2;
+    };
+    
+    const c1 = new Circle(1);
+    const c2 = new Circle(2);
+    
+    console.log(c1.getArea === c2.getArea); // true
+    ```
+    
+## 프로토타입 객체(프로토타입)
+* 객체 간 상속을 구현하기 위해 사용
+* 어떤 객체의 상위 객체의 역할을 하는 객체로서 다른 객체에 공유 프로퍼티를 제공한다.
+* 하위 객체는 상위 객체의 프로퍼티를 자신의 프로퍼티처럼 자유롭게 사용가능
+* 객체가 생성될 때 객체 생성 방식에 따라 프로토타입이 결정되고 ``[[Prototype]]``에 저장된다
+* 모든 객체는 하나의 프로토타입을 갖는다
+* 모든 프로토타입은 생성자 함수와 연결되어 있다.
+
+### ``__proto__`` 접근자 프로퍼티
+* 모든 객체는 ``__proto__``접근자 프로퍼티를 통해 자신의 프로토타입``[[Prototype]]``에 간접적으로 접근할 수 있다.
+* ``[[Get]]``,``[[Set]]``프로퍼티 어트리뷰트로 구성된 프로퍼티임
+* ``__proto__`` -> getter / setter -> ``[[Prototype]]`` 방식으로 작동한다.
+    ```javascript
+    const obj={};
+    const parent = { x : 1};
+    
+    // getter 함수인 get __proto__가 호출되어 obj 객체의 프로토타입을 획득
+    obj.__proto__;
+  
+    // setter 함수인 set __proto__가 호출되어 obj 객체의 프로토타입을 교체
+    obj.__proto__ = parent;  // obj의 프로토타입을 parent로 설정
+    
+    console.log(obj.x); // 1
+    ```
+* ``__proto__``는 Object.prototype의 프로퍼티다.모든 객체는 상속을 통해 사용할 수 있다.
+* 프로토타입 체인은 단방향 링크드로 구현되어야 한다.
+  * 부모가 자식 상속하고,자식이 부모 상속하고 그러는 순환참조를  ``__proto__``가 체크 후 방지하고 교체하도록 도와준다.
+* 코드 내에서 직접 사용하는 것은 권장되지 않는다.
+  * 모든 객체가 ``__proto__`` 를 사용할 수 있는 것은 아니기 때문(직접상속 등)
+  * 대신 Object.getPrototypeOf,Object.setPrototypeOf 사용을 권장
+  ```javascript
+    const obj ={};
+    const parent = { x : 1 };
+    
+    // obj 객체의 프로토타입 획득
+    Object.getPrototypeOf(obj); // obj.__proto__;
+  
+    // obj 객체의 프로토타입을 교체
+    Object.setPrototypeOf(obj,parent); // obj.__proto__ = parent;
+  
+    console.log(obj.x); // 1
+  ```
+  
+### 함수 객체의 prototype 프로퍼티 
+* 함수 객체만이 소유하는 prototype 프로퍼티는 생성자 함수가 생성할 인스턴스의 프로토타입을 가리킨다.
+  ```javascript
+    // 함수 객체는 prototype 프로퍼티를 소유
+    (function (){}).hasOwnProperty('prototype'); // true
+    
+    // 일반 객체는 prototype 프로퍼티를 소유 X
+    ({}).hasOwnProperty('prototype'); // false;
+  ```  
+* non-constructor인 화살표 함수와,ES6 메서드 축약표현으로 정의한 메서드는 prototype 프로퍼티를 소유하지 않는다.(프로토타입생성 X)
+* 생성자 함수를 호출하는 것이 목적이 아닌 일반 함수도 prototype프로퍼티를 소유하지만 아무런 의미가 없다.
+* 모든 객체가 가진 ``__proto__``와 함수 객체가 가진 ``prototype``은 결국 동일한 프로토타입을 가리킨다.
+  * 사용하는 주체만 다름 (모든객체/생성자 함수)
+  ```javascript
+    function Person(name){
+        this.name = name;
+    }
+  
+    const me = new Person('Lee');
+        
+    console.log(Person.prototype === Person.__proto__); // true  
+  ```
+  
+***
+### 리터럴 표기법에 의해 생성된 객체의 생성자 함수와 프로토타입
+* 생성자 함수에 의해 생성된 인스턴스는 프로토타입의 constructor 프로퍼티에 의해 생성자 함수와 연결된다.
+* 이때, constructor가 가리키는 생성자 함수는 인스턴스를 생성한 생성자 함수
+    ```javascript
+    function Person(name){
+        this.name=name;
+    }
+    
+    const me = new Person('Lee');
+    console.log(me.constructor === Person); // true
+    ```
+* 리터럴 표기법에 의해 생성된 객체도 프로토타입이 존재
+  * 그러나, constructor프로퍼티가 가리키는 생성자 함수가 객체를 생성한 생성자 함수라고 단정할 수 없다.
+
+
+***
+## Strict Mode
+* 전역의 선두 또는 함수 몸체의 선두에 ``'use strict';``를 추가
+* 잠재적인 오류를 방지하기 위함
+* 전역이나 함수단위로 적용하는 것은 비추천
+* 즉시실행함수로 감싼 스크립트 단위로 적용하는 것이 바람직
+
+### strict mode가 발생시키는 에러
+1. 암묵적 전역(선언하지 않은 변수 참조)
+2. delete 연산자로 변수,함수,매개변수의 삭제
+3. 매개변수 이름의 중복
+4. with 문의 사용(with문은 보통 사용을 잘안함)
+
+### strict mode 적용에 의한 변화
+1. 함수를 일반 함수로서 호출하면 this에 undefined가 바인딩된다.(생성자 함수가 아닌 일반 함수 내부에서는 사용할 필요가 없기 때문)
+2. 매개변수에 전달된 인수를 재할당하여 변경해도 arguments객체에 반영되지 않음
+
+***
