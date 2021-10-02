@@ -869,3 +869,25 @@ Object.defineProperty(person, 'fullName', {
 2. 매개변수에 전달된 인수를 재할당하여 변경해도 arguments객체에 반영되지 않음
 
 ***
+## 스프레드 문법
+
+* 이터러블을 펼쳐서 개별적인 값들의 목록으로 만듬
+  * 이터러블 : Array,String,Map,Set,Dom collection,arguments 등
+* 방법은 이터러블 앞에 ...을 붙인다.
+
+   ```javascript
+    console.log(...[1,2,3]); // 1 2 3
+    console.log(...'Hello'); // H e l l o
+   ```
+
+* 이터러블이 아닌 일반 객체는 스프레드 문법의 대상이 될 수 없다.
+ * 최근에 스프레드 프로퍼티 제안으로 일반 객체를 대상으로도 사용할 수 있게 되었다.
+      ```javascript
+      // 얉은 복사
+       const obj = { x:1, y:2};
+       const copy = {...obj};
+       console.log(obj===copy); // false  
+      
+      // 객체 병합
+      const merged = { x:1 , y:2 , ...{a:3, b:4}}; // {x:1,y:2,a:3,b:4}
+      ```
