@@ -891,3 +891,191 @@ Object.defineProperty(person, 'fullName', {
       // 객체 병합
       const merged = { x:1 , y:2 , ...{a:3, b:4}}; // {x:1,y:2,a:3,b:4}
       ```
+   
+***
+## DOM
+* Document Object Model
+* HTML문서의 계층적 구조와 정보를 표현하며 이를 제어할 수 있는 API
+* 프로퍼티와 메소드를 제공하는 ``트리 자료구조``
+### 노드(Node)
+1. 트리 자료구조는 부모노드와 자식노드로 구성(계층적 구조)
+   * 최상위 노드 = root node, 부모노드가 없음
+   * 자식 노드가 없는 노드 = leaf node
+2. 노드의 객체 타입
+   * document node = HTML 전체를 가리키는 객체
+   * element node = HTML 요소를 가리키는 객체
+   * attribute node = HTML 요소의 속성을 가리키는 객체
+     * element node하고만 연결되어 있어 접근하려면 element node에 먼저 접근해야한다.
+   * text node = HTML 요소의 텍스트를 가리키는 객체(leaf node 다)
+   * 위의 타입들과 그 외 타입들을 합쳐 총 12가지가 존재
+### 요소 노드 취득
+   * HTML을 동적으로 조작하려면 먼저 element node를 취득해야함
+     * attribute나 text node를 조작하기 위해서도 element node를 먼저 취득해야함.
+
+
+   * 방법
+     1. ``document.getElementById`` : id를 이용해서 취득,인수로 전달된 id값을 갖는 첫 번째 요소 노드만 리턴
+        * HTML 요소에 id attribute를 부여하면 id 값과 동일한 이름의 전역 변수가 암묵적으로 선언되고 해당 노드객체가 할당된다.
+        * 단, id값과 동일한 이름의 전역변수가 이미 선언되어 있으면 노드객체가 재할당되지않는다.
+     2. ``document.getElementsByTagName`` : 인수로 전달한 태그 이름을 갖는 모든 element 노드들을 탐색하여 HTMLCOllection 객체로 반환
+        * HTMLCollection 객체는 유사배열객체 및 이터러블임
+        * 모든 element 노드 얻으려면 인수로 `*`전달
+        * ``Element.getElementsByTagName``으로 쓰면 특정 요소의 자손 element 요소만 반환 
+        * 인수로 전달된 태그이름을 갖는 요소가 없으면 빈 HTMLCollection 객체 반환
+     3. ``document.getElementsByClassName``: 인수로 전달된 class 값을 갖는 모든 요소들 HTML컬렉션으로 반환
+        * 태그네임과 마찬가지로 특정 요소에서 사용하면 특정요소의 자손노드들만 반환함
+     4. CSS 선택자를 이용한 요소 노드 취득
+        * querySelector : 해당하는 첫번째 요소 노드만 반환
+        * querySelectorAll : NodeList 객체를 반환 
+        * getElemnet메서드보다는 다소 느림, 그러나 구체적인 조건으로 요소노드 얻을 수 있음.
+        * 그래서 id attiribute가 있는 element node를 취득하는 경우에는 getElemnetById사용
+        * 그 외에는 query 메서드 사용
+     5. HTMLCollection 과 NodeList
+        * 유사배열객체이자 이터러블 (for...of문으로 순회가능,스프레드 문법사용가능)
+        * 노드 객체의 상태 변화를 실시간으로 반영하는 살아있는 객체(live 객체)
+        * HTMLCollection은 항상 live 객체로 동작
+        * NodeList는 non-live객체로 동작하지만 경우에 따라 live객체로 동작
+        * 상태를 실시간으로 변경하므로 오류가 발생할 확률이 있으니 되도록이면 객체를 배열로 변환하여 사용해야한다
+          * Array.from이나 스프레드 문법으로 배열로 변환
+
+
+### 노드 탐색
+* 공백 텍스트 노드 : HTML 요소 사이의 스페이스,탭,줄바꿈 등의 공백문자는 텍스트노드를 생성함
+* 자식 노드 탐색
+  1. Node.prototype.childNodes : 텍스트 노드를 포함한 자식 노드를 모두 탐색하여 NodeList에 담아 반환
+  2. Element.prototype.children : 자식 노드 중에 element 노드 만 모두 탐색하여 HTMLCollection으로 반환, 텍스트노드 포함 X
+  3. Node.prototype.firstChild : 첫번째 자식노드를 반환, 반환하는 노드는 텍스트 노드거나 요소 노드이다
+  4. Node.prototype.lastChild : 마지막 자식노드 반환 , 위와 동일
+  5. Element.prototype.firstElementChild : 첫 번째 자식 요소 노드를 반환,요소노드만 반환한다
+  6. Element.prototype.lastElementChild : 마지막 자식요소 노드 반환
+* 자식 노드 존재 확인
+  1. Node.prototype.hasChildNodes : 자식노드존재하면 true,없으면 false (텍스트노드 포함) 
+  2. 자식 노드 중에 텍스트 노드가 아닌 요소 노드가 존재하는지 확인하는 방법
+     1. children.length
+     2. childElementCount
+* 부모 노드 탐색 
+  * Node.prototype.parentNode
+* 형제 노드 탐색
+  * attribute노드는 탐색 X, 텍스트나 요소노드만 반환
+  * Node.prototype.previousSibling : 형제 노드 중에서 자신의 이전 형제 노드를 탐색하여 반환
+  * Node.prototype.nextSibling : 자신의 다음 형제노드를 탐색하여 반환
+  * Element.prototype.previousElementSibling : 자신의 이전 형제 element 노드 반환
+  * Elemnet.prototype.nextElementSibling : 자신의 다음 형제 element 노드 반환
+* 노드 정보 취득
+  * Node.prototype.nodeType : 노드타입을 상수로 반환, 요소노드=1,텍스트노드=3,문서 노드=9
+  * Node.prototype.nodeName : 노드이름을 문자열로 반환
+
+    
+### 요소 노드의 텍스트 조작
+1. nodeValue
+   * 텍스트 변경할 요소 노드 취득 후, 텍스트 노드 탐색하여 nodeValue사용하여 텍스트 노드 값 변경
+2. textContent
+   * 요소 노드의 콘텐츠영역(시작 태그와 종료 태그 사이) 내의 텍스트를 모두 반환(공백텍스트도 포함)
+   * 이 때 HTML ``마크업은 무시``된다.
+   * innerText 프로퍼티도 존재하는데 사용하지 않는 것이 좋다.(CSS에 순종적이라)
+   * 
+### DOM 조작
+* 새로운 노드를 생성하여 DOM에 추가하거나 기존 노드를 삭제,교체하는 것 -> 리플로우,리페인트 발생
+1. innerHTML
+   * 요소 노드의 콘텐츠영역 내에 포함된 모든 HTML 마크업을 문자열로 반환
+   * 구현이 간단하고 직관적이라는 장점이 있음
+   * 단점
+     1. 크로스 사이트 스크립팅 공격에 취약
+     2. 요소노드의 innerHTML 프로퍼티에 HTML 마크업 문자열을 할당하는 경우   
+     요소 노드의 모든 자식노드를 제거하고 할당한 문자열을 파싱하여 DOM을 변경
+     3. 새로운 요소를 삽입할 때 삽입될 위치를 지정할 수 없음
+2. insertAdjacentHTML
+   * 기존 요소 제거없이 위치를 지정해 새로운 요소를 삽입 
+   * 첫번째 인수는 고정 
+     * beforbegin : 시작태그 앞
+     * afterbegin : 시작태그 뒤
+     * beforeend : 종료태그 앞
+     * afterend : 종료태그 뒤
+   * 두번째 인수로 전달한 마크업 문자열을 파싱하고 그 결과로 생성된 노드를 첫번째 인수로 전달한 위치에 삽입
+   * innerHTML보다 효율적이고 빠르지만 크로스사이트 스크립팅 공격에 취약
+3. 노드생성과 추가(예시로 텍스트노드 생성 및 추가)
+   1. 요소 노드 생성
+      * document.createElement(tagName) : 요소 노드를 생성하여 반환
+   2. 텍스트 노드 생성
+      * document.createTextNode(text) : 텍스트 노드를 생성하여 반환
+   3. 인수 노드를 요소 노드의 자식노드로 추가
+      * 요소노드.appendChild(childNode) : 인수로 전달한 노드를 호출한 노드의 ``마지막 자식 노드로`` 추가
+   * 요소 노드를 생성하여 추가할때마다 리플로우와 리페인트가 실행된다 -> 비효율적
+   * 이러한 문제를 해결하기 위해 ``DocumentFragment 노드`` 사용
+4. DocumentFragment
+   * 노드 객체의 일종으로, 부모 노드가 없어서 기존 DOM과는 별도로 존재
+   * DocumentFragment 노드에 자식노드를 추가하여도 기존 DOM에는 변경이 발생하지 않고,  
+   DocumentFragment 노드를 DOM에 추가하면 자신은 제거되고 자신의 자식노드만 DOM에 추가된다
+   * ``document.createDocumentFragment();`` 로 생성
+5. 노드 삽입
+   * appendChild : 마지막 자식 노드로 추가
+   * insertBefore(newNode,childNode) : 첫번째 인수로 전달받은 노드를 두번째 인수로 전달받은 노드 앞에 삽입
+     * childNode는 무조건 insertBefore 메서드를 호출한 노드의 자식 노드여야 한다.
+     * 두번째 인수가 null이면 마지막자식노드로 추가 (=appendChild)
+6. 노드 이동
+   * DOM에 이미 존재하는 노드를 appendChild나 insertBefore을 사용하여   
+   DOM에 다시 추가하면 현재 위치에서 노드를 제거하고 새로운 위치에 노드를 추가한다.
+7. 노드 복사 
+   * cloneNode(true|false) : 노드의 사본을 생성하여 반환,true면 ``깊은 복사``(모든 자손노드가 포함),false거나 생략하면 ``얕은 복사``(노드 자신만 복사) 
+8. 노드 교체
+   * replaceChild(newChild,oldChild) : 호출한 노드의 oldChild 노드를 newChild로 교체
+9.노드 삭제
+   * removeChild(child) : child 매개변수에 인수로 전달한 노드를 삭제
+***
+   
+## 어트리뷰트
+### 어트리뷰트 노드와 attribute 프로퍼티
+* HTML 요소는 여러개의 속성(attribute)를 가질 수 있다.
+* 시작 태그에 ``어트리뷰트 이름 ="어트리뷰트 값"`` 형식으로 정의
+* 속성 개수만큼 어트리뷰트 노드가 생성된다.
+* 모든 어트리뷰트 노드는 NamedNodeMap 객체에 담겨서 element 노드의 attributes 프로퍼티에 저장된다.
+* attributes 프로퍼티는 getter만 존재하는 읽기 전용 접근자 프로퍼티,요소노드으ㅢ 어트리뷰트 노드의 참조가 담긴 NamedNodeMap객체를 반환
+```html
+<!DOCTYPE html>
+<html>
+<body>
+        <input id="user" type="text" value="ungmo2">
+        <script>
+            const { attributes } = document.getElementById("user"); // attributes로 안하면 작동안한다.
+            console.log(attributes);// NamedNodeMap 반환
+            // 속성 값 취득, value 이용
+            console.log(attributes.id.value);
+            console.log(attributes.type.value);
+            console.log(attributes.value.value);
+        </script>
+</body>
+</html>
+```
+### HTML 어트리뷰트 조작
+1. getAttribute('어트리뷰트 이름') : 어트리뷰트 값 참조
+2. setAttribute('어트리뷰트이름','어트리뷰트값') : 어트리뷰트 값 변경,
+3. hasAttribute('어트리뷰트 이름') : 특정 어트리뷰트가 존재하는지 확인
+4. removeAttribute('어트리뷰트 이름') : 특정 어트리뷰트 삭제
+
+### HTML 어트리뷰트 vs DOM 프로퍼티
+* HTML 어트리뷰트로 지정한 HTML 요소의 ``초기 상태``는 어트리뷰트 노드에서 관리
+  * get,setAttribute를 사용한 것이나 애초에 HTML에서 작성한 것들
+  * 즉, 초기상태값을 관리한다는 것
+  * HTML 요소에 지정한 어트리뷰트 값은 사용자의 입력에 의해 변하지 않는다.
+* DOM 프로퍼티는 사용자의 입력에 의한 상태 변화에 반응하여 언제나 최신 상태를 유지
+  * 사용자의 입력에 의해 언제든지 동적으로 변경되어 최신상태를 유지
+```html
+<!DOCTYPE html>
+<html>
+<body>
+    <input id="user" type="text" value="dokuny">
+    <script>
+        const $input = document.getElementById('user');
+		
+		// 사용자가 input 요소의 입력 필드에 값을 입력할 때마다 input 요소 노드의 value 프로퍼티 값
+        // 즉 최신 상태 값을 취득한다.value 프로퍼티 값은 사용자의 입력에 의해 동적으로 변한다.
+        $input.oninput = ()=>{
+			console.log('value 프로퍼티 값',$input.value); // 입력할때마다 변함
+        };
+		
+		// getAttribute 메서드로 취득한 HTML 어트리뷰트 값,즉 초기 상태 값은 변하지 않고 유지된다.
+        console.log('value 어트리뷰트 값',$input.getAttribute('value')); // 입력해도 안변함
+    </script>
+</body>
+</html>
+```
