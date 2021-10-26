@@ -25,6 +25,10 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
         * ``getParameter(name)`` : 문자열 name에 매칭된 value를 리턴
         * ``getParamterValues(name)`` : 문자열 name에 매칭된 value를 배열 형태로 가져옴
         * ``getCookies()`` : 모든 쿠키 값을 javax.servlet.http.Cookie의 배열 형태로 리턴
+        * ``getMethod()`` : 현재 요청방식이 GET인지 POST인지를 문자열로 반환
+        * ``getSession()`` : 현재 세션 객체를 반환
+        * ``getProtocol()`` : 현재 서버의 프로토콜을 문자열로 반환
+        * ``getQueryString()`` : 현재 요청에 포함된 쿼리문자열을 반환
         * ``getRemoteAddr()`` :    클라이언트의 IP 주소를 리턴한다.
         * ``setCharacterEncoding()`` : 현재 JSP로 전달되는 내용을 지정한 캐릭터셋으로 변환해준다. HTML 폼에서 한글 입력을 정상적으로 처리하기 위해 필수
 
@@ -35,7 +39,7 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
         * 메서드
             * ``setContentType(type)`` : 문자열 형태의 type에 지정된 MIME Type으로 contentType을 설정한다.
                 * 해당 메서드를 사용하게 되면 page 지시어에서 contentType을 이용해 지정된 MIME Type을 무시하고 새로운 MIME Type이 헤더로 전달된다.
-            * ``sendRedirect(이동할 페이지)`` : 클라이언트 요청을 다른 페이지로 보낸다.
+            * ``sendRedirect(url)`` : 클라이언트 요청을 다른 페이지로 보낸다.
               ```
               !sendRedirect vs forward 액션
               결과만 보면 forward 액션과 거의 유사하지만 sendRedirect는 새로운 페이지를 위한 request, response 객체가 새로 생성되며
@@ -43,6 +47,9 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
               즉, a->b->c 이런식으로 요청이 진행된다 할 때, forward 액션을 사용하면 a에서 전달된 request 객체가 c까지 전달이 되지만,
               sendRedirect 메서드를 사용하면 b에서 c로 넘어갈 때 새로운 request, response 객체가 생성되어 값이 전달되지 않는다.
               ```
+            * ``addCookie(cookie)`` : 클라이언트에게 전달할 쿠키를 설정
+            * ``encodeURL(url)`` : URL로 유효하지 않은 문자를 인코딩
+            * ``sendError(status,msg)`` : 클라이언트에게 에ㅋ러코드와 메시지를 전달
 
 
 * ``out``
@@ -63,13 +70,14 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
     * HTTP 프로토콜이 비연결형 프로토콜이라는 문제를 해결하기 위해 사용
     * 메서드
         * ``getId()`` : 세션 고유의 ID를 문자열 형태로 리턴
-        * ``getCreatingTime()`` : 세션 생성 시간을 January 1. 1970 GMT 부터 long 형 밀리세컨드 값으로 반환
+        * ``getCreationTime()`` : 세션 생성 시간을 January 1. 1970 GMT 부터 long 형 밀리세컨드 값으로 반환
         * ``getLastAccessedTime()`` : 현재 세션으로 마지막 작업한 시간을 ong형 밀리세컨드 값으로 반환
         * ``getMaxInactiveInterval()`` : 세션의 유지시간을 초로 반환
         * ``setMaxInactiveInterval(t)`` : 세션의 유효 시간을 t에 설정된 초 값으로 설정
         * ``invalidate()`` : 세션 종료
         * ``getAttribute(attr)`` : 문자열 attr로 설정된 세션 값을 Object 형태로 가져옴
         * ``setAttribute(name, attr)`` : 문자열 name으로 Object attr을 저장
+        * ``removeAttribute(name)`` : 세션에 설정한 속성 값을 삭제
 
 
 * ``config``
@@ -88,9 +96,9 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
     * 메서드
         * ``log(message)`` : 문자열 message의 내용을 로그 파일에 기록한다.
         * ``log(message, exception)`` : 예외 상황에 대한 정보를 포함하여 로그 파일에 기록한다.
-        * ``getAttribute(String name)`` : 문자열 name에 해당하는 속성 값이 있다면 Object 형태로 반환, 형변환이 필요하다.
+        * ``getAttribute(name)`` : 문자열 name에 해당하는 속성 값이 있다면 Object 형태로 반환, 형변환이 필요하다.
         * ``getAttributeNames()`` : application 객체에 저장된 속성들의 이름을 열거 형태로 가져온다.
-        * ``setAttribute(String name, Object value)`` : 문자열 name의 이름으로 Object형 데이터를 저장한다.
+        * ``setAttribute(name,value)`` : 문자열 name의 이름으로 Object형 데이터를 저장한다.
         * ``removeAttribute(String name)`` : 문자열 name에 해당하는 속성을 삭제한다.
 
 
