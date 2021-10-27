@@ -6,6 +6,19 @@
 ### 주요 액션 태그
 * jsp:param 
   * include,forward 사용 시 파라미터 값을 수정하거나 추가함
+    * include나 forward할 페이지에 파라미터를 전달해줌.
+    * 받는 쪽에서는 request.getParameter("name")로 받음,getAttribute 아님!!!!
+  * param의 value 값에 한글을 넣었을 시 깨질 때는
+    * ``value='<%=URLEncoder.encode("한글내용","UTF-8")%>'``
+    * 이런식으로 처리해줘야 안깨진다.
+    * 받는쪽에서는 ``<%=URLDEcoder.decode(request.getParameter("param의 name"),"UTF-8")%>`` 이런식으로 처리.
+```jsx
+// 생김새
+<jsp:param name="" value=""/>
+// 파라미터를 여러개 전달해야한다면 여러번 사용할 수 있다.
+<jsp:param name="" value=""/>
+<jsp:param name="" value=""/>
+```
 * jsp:forward
   * 현재 페이지를 다른 페이지로 전환할 때 사용(리디렉션과 유사)
   * request와 response 객체를 포함해서 다른 페이지로 포워드함
@@ -19,6 +32,9 @@
 * jsp:include
   * jsp페이지 내에 다른 페이지를 삽입
   * 실행 중에 동적으로 포함시킴
+  * ``<%@include%>``와 다른점은?
+    * 지시자 include는 변수를 서로 공유할 수 있다. 컴파일할 때 현재페이지와 include지시자에 포함된 페이지가 합쳐진 상태로 컴파일하기 때문
+    * 액션태그 include는 변수를 공유할 수 없다. 액션태그 include의 페이지와 현재페이지는 각자 별개로 컴파일 되기 때문
 * jsp:useBean
   * 자바 빈즈 객체를 생성하거나 불러옴
   * JSP를 단순히 view 역할로만 사용한다면 사용할 일이 없다.

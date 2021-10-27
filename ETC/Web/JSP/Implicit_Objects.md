@@ -20,6 +20,8 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
 * ``request``
     * 사용자 요청(input)과 관련된 기능을 제공하는 내장객체
     * 주로 클라이언트에서 서버로 전달되는 정보를 처리하려고 사용
+    * 브라우저가 결과를 받으면 그 요청과 관련된 request 내장 객체는 사라진다.
+    * 브라우저가 요청할 때마다 새로운 request 내장 객체가 생성되고 매번 새로운 request 영역이 생성된다.
     * 메서드
         * ``getParameterNames()`` : 현재 요청에 포함된 매개변수의 이름을 열거 형태로 리턴
         * ``getParameter(name)`` : 문자열 name에 매칭된 value를 리턴
@@ -31,6 +33,11 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
         * ``getQueryString()`` : 현재 요청에 포함된 쿼리문자열을 반환
         * ``getRemoteAddr()`` :    클라이언트의 IP 주소를 리턴한다.
         * ``setCharacterEncoding()`` : 현재 JSP로 전달되는 내용을 지정한 캐릭터셋으로 변환해준다. HTML 폼에서 한글 입력을 정상적으로 처리하기 위해 필수
+        * * ``setAttribute()``
+
+    * getParameter()와 getAttribute()의 차이점
+      * getParameter()는 ``String타입``을 리턴,웹브라우저에서 전송받은 ``request영역``의 값을 읽어온다.
+      * getAttribute()는 ``Object 타입``을 리턴,``setAttribute()``속성을 통한 설정이 없으면 무조건 null값을 리턴
 
 
 * ``response``
@@ -100,6 +107,7 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
         * ``getAttributeNames()`` : application 객체에 저장된 속성들의 이름을 열거 형태로 가져온다.
         * ``setAttribute(name,value)`` : 문자열 name의 이름으로 Object형 데이터를 저장한다.
         * ``removeAttribute(String name)`` : 문자열 name에 해당하는 속성을 삭제한다.
+        
 
 
 * ``exception``
@@ -109,17 +117,30 @@ JSP 파일에서 프로그램을 작성할 때 내장객체를 별도의 선언 
         * ``printStackTrace()`` : 스택 추적 정보를 출력한다.
         * ``toString()`` : 예외 클래스 이름과 함께 오류 메시지를 반환한다.
 
+
+* ``pageContext``
+  * 하나의 JSP 페이지를 처리할 때 사용되는 영역
+  * page 영역은 한 번의 클라이언트 요청에 하나으 JSP 페이지를 범위로 갖게되며 그에 해당하는 pageContext 내장 객체를 할당 받는다.
+  * pageContext 객체에 정보를 저장하면 해당 페이지 내에서만 사용할 수 있다.
+    * 메서드
+      * ``setAttribute()``
+      * ``getAttribute()``
+
+    
 ***
 
 ### 내장객체의 생명주기와 속성관리
-
+* 내장 객체의 영역 = 객체의 유효기간
 * request, session, application의 생성 시점과 소멸 시점
 
   |내장객체|생성시점|소멸시점|
-    |:---:|:---:|:---:|
-  |request|해당 페이지 요청 시점|해당 페이지 로딩 완료 시점|
-  |session |해당 컨텍스트 내 특정 파일 요청 시점|웹 브라우저 종료 or 일정시간 경과 시점|
-  |application|웹 에플리케이션 시작 시점|웹 에플리케이션 종료 시점|
+    |:---:|:---:|:---:| 
+    |request|해당 페이지 요청 시점|해당 페이지 로딩 완료 시점|
+    |session |해당 컨텍스트 내 특정 파일 요청 시점|웹 브라우저 종료 or 일정시간 경과 시점|
+    |application|웹 에플리케이션 시작 시점|웹 에플리케이션 종료 시점|
+
+![](img/Scope.png)
+
 
 ### MVC에서의 내장객체
 ```
