@@ -149,9 +149,16 @@
     * value : 버튼에 표시할 내용
   * image : submit 대신 사용할 이미지, src,alt 작성
   * file : 파일 첨부 버튼
+    * file을 위한 form 속성
+      * enctype : 전송되는 데이터 형식 설정
+        * application/www-form-urlencoded : 디폴트값,폼데이터는 서버로 전송되기 전에 URL-Encode된다.
+        * multipart/form-data : 파일이나 이미지를 서버로 전송할 경우 이 방식을 사용, 메소드는 post값으로 지정
+        * text/plain :  인코딩을 하지 않은 문자 상태로 전송
+      
   * hidden : 사용자에게는 보이지 않지만 서버로 넘겨주는 값이 있는 필드
     * name : 이름
     * value : 서버로 넘길 값
+  
 
 #### input태그 주요 속성
 * autofocus : 자동으로 입력 커서를 가져다 놓음
