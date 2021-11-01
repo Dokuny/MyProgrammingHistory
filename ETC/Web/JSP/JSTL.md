@@ -1,11 +1,14 @@
 # JSTL(JSP Standard Tag Library)
+
 ## 태그 라이브러리의 표준화
 * Core
-* Formating
+* Formatting
 * Functions
 * SQL -> 쓰지않는게 좋음
 * XML -> 쓰지않는게 좋음
 ***
+### 사용하려면?
+* JSTL을 받아서 라이브러리에 넣어줘야한다.
 ### JSTL Core
 ```jsx
 // 사용하기 위해서는 이렇게 지시자를 통해 JSP 페이지 상단에 선언을 해야한다.
@@ -65,7 +68,7 @@
     </c:choose>
     ```
     
-  * ``c:forEach`` : for문
+  * ``<c:forEach>`` : for문
     * var : 사용할 변수명
     * items : Collection 객체
     * begin : 시작 index, 기본값은 0
@@ -118,3 +121,27 @@
 
     <a href="${ fmtlink }">결과화면 연결</a>
     ```
+    
+* Core에서 out,param,import,redirect는 안쓰는 것이 좋다.
+***
+## Formatting
+* 지역, 메시지 형식, 숫자 및 날짜형식 등 표시할 때 사용
+```java
+// 선언
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+```
+* 종류
+  * 숫자 날짜 형식 
+    * formatnumber : 숫자를 양식에 맞춰 출력
+    * formatDate : 날짜 정보를 담고 있는 객체를 포맷팅하여 출력할 때 사용
+    * parseDate : 문자열을 날짜로 파싱
+    * parseNumber : 문자열을 수치로 파싱
+    * setTimeZone : 시간대별로 시간을 처리할 수 잇는 기능
+    * timeZone : 위와 동일
+  * 로케일 지정
+    * setLocale : 국제화 태그들이 사용할 로케일을 지정
+    * requestEncoding : 요청 파라미터의 인코딩을 지정
+  * 메시지 처리
+    * bundle : 태그 몸체에서 사용할 리소스 번들을 지정
+    * message(param) : 메시지를 출력
+    * setBundle : 특정 리소스 번들을 사용할 수 있도록 로딩
