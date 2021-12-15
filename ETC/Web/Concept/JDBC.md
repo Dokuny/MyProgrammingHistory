@@ -8,12 +8,12 @@
       ```
 2. 데이터베이스 연결
    * JDBC URL,DB 사용자 아이디/비밀번호 필요
-   * Connection 클래스의 인스턴스 및 DriverMagnager.getConnection() 이용하여 레퍼런스 참조
-      ```java
-       String url = "jdbc:mysql://localhost:3306/데이터베이스 이름?useUnicode=true&characterEncoding=UTF-8";
+     * Connection 클래스의 인스턴스 및 DriverMagnager.getConnection() 이용하여 레퍼런스 참조
+        ```java
+         String url = "jdbc:mysql://localhost:3306/데이터베이스 이름?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
        
-       Connection conn = DriverManager.getConnection(url,"아이디","비밀번호");
-      ```
+         Connection conn = DriverManager.getConnection(url,"아이디","비밀번호");
+        ```
 3. Statement 생성
    * Statement 객체를 이용해서 문자열로 이루어진 SQL문을 JDBC에서 처리할 수 있는 객체로 변환
    * ``PreparedStatement``를 사용하는 것이 좋다.
